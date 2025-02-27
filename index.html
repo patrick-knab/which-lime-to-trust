@@ -284,7 +284,7 @@
               <span id="yearSortIcon" class="sort-icon">▼</span>
             </th>
             <!-- 3) Category (not sortable) -->
-            <th id="categoryCol">Category</th>
+            <th id="categoryCol">Issue</th>
             <!-- 4) Binary1 (sortable, vertical line before it) -->
             <th id="binary1Col" class="text-center">
               Feature <br>Generation
@@ -358,14 +358,8 @@
         </div>
         <!-- Category -->
         <div class="col-md-4">
-          <label for="categoryField" class="form-label">Category</label>
-          <select class="form-select" id="categoryField" name="category" required>
-            <option value="" disabled selected>-- Select Category --</option>
-            <option value="Methods">Methods</option>
-            <option value="Applications">Applications</option>
-            <option value="Review">Review</option>
-            <option value="Other">Other</option>
-          </select>
+          <label for="categoryField" class="form-label">Issue</label>
+          <input type="text" class="form-control" id="categoryField" name="category" placeholder="E.g. 'F, L'" required>
         </div>
         <!-- Year -->
         <div class="col-md-4">
