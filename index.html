@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Which LIME should I trust?</title>
+
+  <!-- Bootstrap CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+  />
+  <!-- Google Font -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap"
+  />
+
+  <style>
+    :root {
+      /* Accent Color */
+      --accent-green: #28a745;
+      /* Neutral Colors */
+      --dark-text: #333;
+      --light-text: #555;
+      --lighter-text: #777;
+      /* Utility */
+      --border-color: #dee2e6;
+      --table-header-bg: #f2f2f2;
+      --light-bg: #f8f9fa;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      font-size: 16px;
+      background-color: #fff;
+      color: var(--dark-text);
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Header */
+    header {
+      background-color: #fff;
+      text-align: center;
+      padding: 2rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    header h1 {
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--dark-text);
+    }
+    header p.lead {
+      margin: 0;
+      color: var(--lighter-text);
+    }
+
+    /* Footer */
+    footer {
+      background-color: #fff;
+      color: var(--lighter-text);
+      text-align: center;
+      padding: 1rem 0;
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* Description Text */
+    .description {
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+      color: var(--light-text);
+    }
+
+    .table-container th {
+      max-width: 90%;
+      margin: 0 auto;
+      text-align: center;  /* Horizontally center the text */
+      vertical-align: middle;  /* Vertically center the text */
+      white-space: normal;  /* Allows text to wrap */
+      padding: 8px;  /* Adds spacing for readability */
+    }
+
+    /* Main Table */
+    .table {
+      /* Subtle gray background instead of pure white */
+      background-color: #f9f9f9;
+      /* Rounded corners */
+      border-radius: 8px;
+      /* Hide anything that overflows the border radius */
+      overflow: hidden;
+      /* Optional subtle box shadow */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      width: 100%;
+    }
+    .table th, .table td {
+      max-width: 150px; /* Set a max width for table cells to prevent unnecessary stretching */
+      overflow-wrap: break-word; /* Break long words */
+      word-wrap: break-word;
+      white-space: normal; /* Allow text to wrap */
+    }
+    .table thead th {
+      background-color: var(--table-header-bg);
+      font-weight: 500;
+    }
+    .table tbody tr:hover {
+      background-color: var(--light-bg);
+    }
+    .table td a {
+      color: var(--accent-green);
+      text-decoration: none;
+    }
+    .table tbody tr {
+      transition: background-color 0.3s ease; /* Smooth color change on hover */
+    }
+
+    .table tbody tr:hover {
+      background-color: #eceff1; /* Slightly darker hover color */
+    }
+
+    /*
+      Column order (main table):
+      1) Title
+      2) Year (sortable)
+      3) Category
+      4) Binary 1 (sortable, vertical line before it)
+      5) Binary 2 (sortable)
+      6) Binary 3 (sortable)
+      7) Binary 4 (sortable)
+      8) Code? (sortable, vertical line before it)
+    */
+    .table thead th:nth-child(4),
+    .table tbody td:nth-child(4) {
+      border-left: 2px solid var(--border-color);
+    }
+    .table thead th:nth-child(8),
+    .table tbody td:nth-child(8) {
+      border-left: 2px solid var(--border-color);
+    }
+
+    /* Sort icons next to the header text */
+    .sort-icon {
+      margin-left: 5px;             /* Space between the text and the icon */
+      font-size: 0.85em;            /* Slightly smaller icon size */
+      color: var(--lighter-text);   /* Subtle color for the icon */
+      display: inline-block;        /* Ensures it behaves like an inline element */
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background-color: var(--accent-green);
+      border-color: var(--accent-green);
+    }
+    .btn-primary:hover,
+    .btn-primary:focus {
+      background-color: #218838;
+      border-color: #1e7e34;
+    }
+    .btn-dark {
+      background-color: var(--accent-green);
+      border-color: var(--accent-green);
+    }
+    .btn-dark:hover {
+      background-color: #218838;
+      border-color: #1e7e34;
+    }
+
+    /* Hidden form container - "card" style */
+    #formSection {
+      display: none; /* hidden by default */
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      padding: 2rem;
+      border-radius: 0.25rem;
+      border: 1px solid var(--border-color);
+      background-color: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    #formSection h2 {
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+      color: var(--dark-text);
+      text-align: center;
+    }
+
+    /* Form Labels and Controls */
+    .form-label {
+      color: var(--dark-text);
+      font-weight: 500;
+      margin-bottom: 0.4rem;
+    }
+    .form-control,
+    .form-select {
+      border-radius: 0;
+      margin-bottom: 1rem;
+    }
+
+    /* Additional LIME Techniques Table */
+    .lime-title {
+      margin-top: 3rem;
+      font-size: 1.4rem;
+      font-weight: 500;
+    }
+    /* PNG image restrictions */
+    .responsive-image {
+      max-width: 80%; /* Prevent the image from growing beyond this width */
+      max-height: 250px; /* Limit the height */
+      width: auto; /* Maintain aspect ratio */
+      height: auto; /* Maintain aspect ratio */
+      margin: 0 auto; /* Center the image */
+      display: block; /* Center as block element */
+    }
+  
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>Which <span style="color: green; font-weight: bold;">LIME</span> should I trust? </h1>
+    <p class="lead">Concepts, Challenges and Solutions</p>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container my-4">
+    <!-- Short Description -->
+    <!-- Additional Text Section with PDF Viewer -->
+    <!-- Additional Image Section with Automatic Resizing -->
+
+    <!-- LIME Framework Summary Section -->
+    <section class="container my-5" id="limeSummary">
+      <h2 class="text-center mb-4">LIME Framework Overview</h2>
+      <p class="text-muted">
+        <a href="https://arxiv.org/abs/1602.04938" target="_blank" class="text-success fw-bold">LIME</a> (Local Interpretable Model-agnostic Explanations) is a popular XAI framework designed to explain neural network decisions in a model-agnostic and instance-specific manner. It supports explanations across various data modalities, including images, text, and tabular data. This page summarizes the key components of LIME, its applications, and known issues. 
+      </p>
+
+      <h4 class="mt-4">Key Components of LIME</h4>
+
+      <div class="text-center">
+        <img src="framework.png" alt="LIME Framework Overview" class="responsive-image" />
+        <p class="text-muted small mt-2">Figure: Illustration of LIME explanations.</p>
+      </div>
+
+      <ul>
+        <li>
+          <strong>Feature Generation:</strong> LIME builds a local, interpretable surrogate model by creating features based on the input modality (e.g., superpixels for images). Segmentation techniques are used to reduce feature complexity for imagery data.
+        </li>
+        <li>
+          <strong>Sample Generation:</strong> The framework generates perturbed samples by selectively modifying features of the input instance. For example, superpixels in images may be masked, tabular features perturbed, or text tokens replaced to explore the model's decision boundary.
+        </li>
+        <li>
+          <strong>Feature Attribution:</strong> A proximity measure is applied to assign weights to perturbed samples. A linear surrogate model is trained to approximate the model’s local decision-making, using a weighted loss function to ensure fidelity.
+        </li>
+        <li>
+          <strong>Explanation Representation:</strong> LIME provides explanations based on the coefficients of the surrogate model. For images, it highlights important superpixels, for text, key words or phrases, and for tabular data, influential features.
+        </li>
+      </ul>
+
+      <h4 class="mt-4">Key Issues in LIME</h4>
+      <p class="text-muted">Despite its strengths, LIME has known limitations that various studies have addressed:</p>
+      <ul>
+        <li><strong>Locality Issue (L):</strong> Perturbation sampling may fail to represent the local decision boundary accurately, leading to overly broad explanations.</li>
+        <li><strong>Fidelity Issue (F):</strong> The surrogate model may not capture the original model's behavior precisely, causing explanations to misrepresent decisions.</li>
+        <li><strong>Interpretability Issue (I):</strong> The explanation format may need adjustments to suit different data modalities for better user understanding.</li>
+        <li><strong>Stability Issue (S):</strong> Explanations can vary due to small input changes or random perturbations, undermining reliability.</li>
+        <li><strong>Efficiency Issue (E):</strong> Generating explanations can be time-consuming due to the complexity of perturbation and model fitting processes.</li>
+      </ul>
+    </section>
+
+    <!-- Main Table -->
+    <div class="table-container">
+      <table class="table table-borderless align-middle mt-3" id="paperTable">
+        <thead>
+          <tr>
+            <!-- 1) Title (not sortable) -->
+            <th id="titleCol">Title</th>
+            <!-- 2) Year (sortable) -->
+            <th id="yearCol" class="text-center">
+              Year
+              <span id="yearSortIcon" class="sort-icon">▼</span>
+            </th>
+            <!-- 3) Category (not sortable) -->
+            <th id="categoryCol">Category</th>
+            <!-- 4) Binary1 (sortable, vertical line before it) -->
+            <th id="binary1Col" class="text-center">
+              Feature <br>Generation
+              <span id="binary1Icon" class="sort-icon">▼</span>
+            </th>
+            <!-- 5) Binary2 (sortable) -->
+            <th id="binary2Col" class="text-center">
+              Sample <br>Generation
+              <span id="binary2Icon" class="sort-icon">▼</span>
+            </th>
+            <!-- 6) Binary3 (sortable) -->
+            <th id="binary3Col" class="text-center">
+              Feature <br>Attribution
+              <span id="binary3Icon" class="sort-icon">▼</span>
+            </th>
+            <!-- 7) Binary4 (sortable) -->
+            <th id="binary4Col" class="text-center">
+              Explanation <br> Representation
+              <span id="binary4Icon" class="sort-icon">▼</span>
+            </th>
+            <!-- 8) Code? (sortable, vertical line before it) -->
+            <th id="codeCol" class="text-center">
+              Code?
+              <span id="codeSortIcon" class="sort-icon">▼</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- Populated by fetch() from data.json -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Add Entry Button -->
+    <div class="my-3 text-end">
+      <button class="btn btn-dark" id="toggleFormBtn">Add New Entry</button>
+    </div>
+
+    <!-- Hidden Form Section (Card-like container) -->
+    <div id="formSection">
+      <h2>Suggest a New Paper</h2>
+      <form
+        id="submitForm"
+        action="https://formspree.io/f/yourFormId"
+        method="POST"
+        class="row"
+      >
+        <!-- Title -->
+        <div class="col-md-6">
+          <label for="titleField" class="form-label">Title</label>
+          <input
+            type="text"
+            class="form-control"
+            id="titleField"
+            name="title"
+            placeholder="E.g. 'Novel Method XYZ'"
+            required
+          />
+        </div>
+        <!-- URL -->
+        <div class="col-md-6">
+          <label for="urlField" class="form-label">Link to Paper</label>
+          <input
+            type="url"
+            class="form-control"
+            id="urlField"
+            name="url"
+            placeholder="E.g. 'https://example.com/paperXYZ'"
+            required
+          />
+        </div>
+        <!-- Category -->
+        <div class="col-md-4">
+          <label for="categoryField" class="form-label">Category</label>
+          <select class="form-select" id="categoryField" name="category" required>
+            <option value="" disabled selected>-- Select Category --</option>
+            <option value="Methods">Methods</option>
+            <option value="Applications">Applications</option>
+            <option value="Review">Review</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <!-- Year -->
+        <div class="col-md-4">
+          <label for="yearField" class="form-label">Year</label>
+          <input
+            type="number"
+            class="form-control"
+            id="yearField"
+            name="year"
+            placeholder="E.g. 2023"
+            min="1900"
+            max="2100"
+            required
+          />
+        </div>
+        <!-- Code Available -->
+        <div class="col-md-4">
+          <label for="codeAvailable" class="form-label">Code Available?</label>
+          <select class="form-select" id="codeAvailable" name="codeAvailable" required>
+            <option value="" disabled selected>-- Select --</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+        </div>
+
+        <!-- Modality -->
+        <div class="col-md-6">
+          <label for="modalityField" class="form-label">Modality</label>
+          <input
+            type="text"
+            class="form-control"
+            id="modalityField"
+            name="modality"
+            placeholder="E.g. 'Text, Vision, Audio, etc.'"
+            required
+          />
+        </div>
+
+        <!-- Domain -->
+        <div class="col-md-6">
+          <label for="domainField" class="form-label">Domain</label>
+          <input
+            type="text"
+            class="form-control"
+            id="domainField"
+            name="domain"
+            placeholder="E.g. 'Healthcare, Finance, etc.'"
+            required
+          />
+        </div>
+
+        <!-- codeUrl (optional) -->
+        <div class="col-md-12">
+          <label for="codeUrlField" class="form-label">
+            Code URL (if Code? = Yes)
+          </label>
+          <input
+            type="url"
+            class="form-control"
+            id="codeUrlField"
+            name="codeUrl"
+            placeholder="E.g. 'https://github.com/your-repo'"
+          />
+          <small class="text-muted">Leave empty if no code link is available.</small>
+        </div>
+
+        <!-- Binary 1 -->
+        <div class="col-md-3">
+          <label for="binary1" class="form-label">Binary 1</label>
+          <select class="form-select" id="binary1" name="binary1" required>
+            <option value="" disabled selected>-- Select --</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+        </div>
+        <!-- Binary 2 -->
+        <div class="col-md-3">
+          <label for="binary2" class="form-label">Binary 2</label>
+          <select class="form-select" id="binary2" name="binary2" required>
+            <option value="" disabled selected>-- Select --</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+        </div>
+        <!-- Binary 3 -->
+        <div class="col-md-3">
+          <label for="binary3" class="form-label">Binary 3</label>
+          <select class="form-select" id="binary3" name="binary3" required>
+            <option value="" disabled selected>-- Select --</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+        </div>
+        <!-- Binary 4 -->
+        <div class="col-md=3">
+          <label for="binary4" class="form-label">Binary 4</label>
+          <select class="form-select" id="binary4" name="binary4" required>
+            <option value="" disabled selected>-- Select --</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="col-12 text-end mt-3">
+          <button type="submit" class="btn btn-primary">
+            Send Suggestion
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- LIME Techniques Table -->
+    <h4 class="mt-4">Applications of LIME</h4>
+      <p class="text-muted">
+        LIME has been successfully applied to complex AI models such as CNNs, LSTMs, and transformer architectures across domains like healthcare, finance, and manufacturing. However, enhancements have been proposed to improve its efficiency, fidelity, and stability.
+      </p> 
+    
+    <!-- Additional Table Container (LIME Techniques) -->
+    <div class="container mt-5" id="limeTechniquesContainer">
+      <!-- Will be populated by buildLimeTechniquesTable(paperData) -->
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    &copy; <span id="yearSpan"></span> Your Name or Organization
+  </footer>
+
+  <!-- Bootstrap Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    let paperData = [];
+    let currentSortColumn = null;
+    let currentSortAsc = true;
+
+    // If codeUrl is present, display the checkmark as a link. Otherwise just check/cross.
+    function getCodeMark(item) {
+      if (!item.codeAvailable) {
+        return '<span class="text-danger fw-bold">&times;</span>';
+      } else {
+        // codeAvailable = true
+        if (item.codeUrl) {
+          return `<a href="${item.codeUrl}" target="_blank" class="text-success fw-bold">&#128187;</a>`;
+        }
+        return '<span class="text-success fw-bold">&check;</span>';
+      }
+    }
+
+    // For the 4 binaries: just check/cross
+    function boolToMark(boolValue) {
+      if (boolValue) {
+        return '<span class="text-success fw-bold">&check;</span>';
+      } else {
+        return '<span class="text-danger fw-bold">&times;</span>';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('data.json')
+        .then(res => res.json())
+        .then(data => {
+          paperData = data;
+          // Default sort: by year ascending
+          currentSortColumn = 'year';
+          currentSortAsc = true;
+
+          // Render main table
+          updateTable();
+
+          // Render LIME techniques table
+          buildLimeTechniquesTable(paperData);
+
+          // Update footer year
+          document.getElementById('yearSpan').textContent = new Date().getFullYear();
+        })
+        .catch(err => console.error('Error loading data.json:', err));
+
+      // Show/hide Add Entry form
+      const toggleFormBtn = document.getElementById('toggleFormBtn');
+      const formSection = document.getElementById('formSection');
+      let formVisible = false;
+      toggleFormBtn.addEventListener('click', () => {
+        formVisible = !formVisible;
+        formSection.style.display = formVisible ? 'block' : 'none';
+      });
+
+      // Single-column sort event listeners
+      document.getElementById('yearCol').addEventListener('click', () => handleSort('year'));
+      document.getElementById('binary1Col').addEventListener('click', () => handleSort('binary1'));
+      document.getElementById('binary2Col').addEventListener('click', () => handleSort('binary2'));
+      document.getElementById('binary3Col').addEventListener('click', () => handleSort('binary3'));
+      document.getElementById('binary4Col').addEventListener('click', () => handleSort('binary4'));
+      document.getElementById('codeCol').addEventListener('click', () => handleSort('code'));
+    });
+
+    // Handle single-column sort
+    function handleSort(column) {
+      if (currentSortColumn === column) {
+        // Toggling asc <-> desc
+        currentSortAsc = !currentSortAsc;
+      } else {
+        currentSortColumn = column;
+        currentSortAsc = true; // reset to ascending
+      }
+      updateTable();
+    }
+
+    // Sort + render main table
+    function updateTable() {
+      let sortedData = [...paperData];
+
+      // Sort by currentSortColumn
+      sortedData.sort((a, b) => {
+        let valA, valB;
+        switch (currentSortColumn) {
+          case 'year':
+            valA = a.year;
+            valB = b.year;
+            break;
+          case 'code':
+            valA = a.codeAvailable ? 1 : 0;
+            valB = b.codeAvailable ? 1 : 0;
+            break;
+          case 'binary1':
+            valA = a.binary1 ? 1 : 0;
+            valB = b.binary1 ? 1 : 0;
+            break;
+          case 'binary2':
+            valA = a.binary2 ? 1 : 0;
+            valB = b.binary2 ? 1 : 0;
+            break;
+          case 'binary3':
+            valA = a.binary3 ? 1 : 0;
+            valB = b.binary3 ? 1 : 0;
+            break;
+          case 'binary4':
+            valA = a.binary4 ? 1 : 0;
+            valB = b.binary4 ? 1 : 0;
+            break;
+          default:
+            return 0;
+        }
+        if (valA < valB) return currentSortAsc ? -1 : 1;
+        if (valA > valB) return currentSortAsc ? 1 : -1;
+        return 0;
+      });
+
+      renderMainTable(sortedData);
+    }
+
+    // Render in the final column order
+    function renderMainTable(items) {
+      const tableBody = document.getElementById('tableBody');
+      tableBody.innerHTML = '';
+
+      items.forEach(item => {
+        // Checkmarks / Crosses for the 4 binaries
+        const bin1Val = boolToMark(item.binary1);
+        const bin2Val = boolToMark(item.binary2);
+        const bin3Val = boolToMark(item.binary3);
+        const bin4Val = boolToMark(item.binary4);
+
+        // Code link or mark
+        const codeVal = getCodeMark(item);
+
+        // Title as link to paper URL
+        const titleLink = `<a href="${item.url}" target="_blank">${item.title}</a>`;
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <!-- 1) Title (left-aligned) -->
+          <td>${titleLink}</td>
+          <!-- 2) Year (center) -->
+          <td class="text-center">${item.year}</td>
+          <!-- 3) Category (left-aligned) -->
+          <td>${item.category}</td>
+          <!-- 4) Binary 1 (center) -->
+          <td class="text-center">${bin1Val}</td>
+          <!-- 5) Binary 2 (center) -->
+          <td class="text-center">${bin2Val}</td>
+          <!-- 6) Binary 3 (center) -->
+          <td class="text-center">${bin3Val}</td>
+          <!-- 7) Binary 4 (center) -->
+          <td class="text-center">${bin4Val}</td>
+          <!-- 8) Code? (center) -->
+          <td class="text-center">${codeVal}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+
+      updateSortIcons();
+    }
+
+    // Update the icons
+    function updateSortIcons() {
+      const iconMap = {
+        year: 'yearSortIcon',
+        code: 'codeSortIcon',
+        binary1: 'binary1Icon',
+        binary2: 'binary2Icon',
+        binary3: 'binary3Icon',
+        binary4: 'binary4Icon'
+      };
+
+      // Reset all icons
+      Object.values(iconMap).forEach(iconId => {
+        const iconEl = document.getElementById(iconId);
+        iconEl.style.color = 'var(--lighter-text)';
+        iconEl.textContent = '▼'; // default
+      });
+
+      // Highlight the current column
+      const currentIcon = iconMap[currentSortColumn];
+      if (currentIcon) {
+        const iconEl = document.getElementById(currentIcon);
+        iconEl.style.color = 'var(--accent-green)';
+        iconEl.textContent = currentSortAsc ? '▼' : '▲';
+      }
+    }
+
+    // Build LIME Techniques Table (collapsed: 1 row per modality)
+    function buildLimeTechniquesTable(paperData) {
+      // 1) Group by Modality -> Domain
+      const grouping = {};
+      paperData.forEach((item) => {
+        const mod = item.modality || "Unknown Modality";
+        const dom = item.domain || "Unknown Domain";
+        
+        grouping[mod] = grouping[mod] || {};
+        grouping[mod][dom] = grouping[mod][dom] || [];
+        grouping[mod][dom].push(item);
+      });
+
+      // 2) Build the table HTML
+      let html = `
+        <figure>
+          <table class="table table-borderless table-sm align-middle mt-3">
+            <thead>
+              <tr class="table-light">
+                <th style="width: 20%">Modality</th>
+                <th style="width: 30%">Domain</th>
+                <th style="width: 50%">LIME-Techniques</th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
+
+      // 3) For each Modality, list its Domains
+      const allModalities = Object.keys(grouping).sort();
+      allModalities.forEach((mod, modIndex) => {
+        const domainMap = grouping[mod];
+        const domains = Object.keys(domainMap).sort();
+
+        // Insert a thin gray line before each new modality (except the first)
+        if (modIndex > 0) {
+          html += `
+            <tr style="border-top: 1px solid #ccc;">
+              <td colspan="3"></td>
+            </tr>
+          `;
+        }
+
+        // Figure out how many rows we'll need for this modality (# of domains)
+        const rowSpanForMod = domains.length;
+        let firstDomainForMod = true;
+
+        domains.forEach((dom) => {
+          // Build a comma-separated list of technique links
+          const techniqueLinks = domainMap[dom]
+            .map(
+              (paper) => `<a href="${paper.url}" target="_blank">${paper.title}</a>`
+            )
+            .join(", ");
+
+          // Single row per (Modality, Domain)
+          html += `<tr>`;
+
+          // Only print the Modality cell once, with rowSpan = # of domains
+          if (firstDomainForMod) {
+            html += `
+              <td rowspan="${rowSpanForMod}">
+                <strong>${mod}</strong>
+              </td>
+            `;
+            firstDomainForMod = false;
+          }
+
+          // Domain + LIME-techniques
+          html += `
+            <td>${dom}</td>
+            <td>${techniqueLinks}</td>
+          </tr>
+          `;
+        });
+      });
+
+      // 4) Close out the table
+      html += `
+            </tbody>
+          </table>
+        </figure>
+      `;
+
+      // 5) Inject table into DOM
+      const container = document.getElementById("limeTechniquesContainer");
+      container.innerHTML = html;
+    }
+  </script>
+</body>
+</html>
