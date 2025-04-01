@@ -10,10 +10,7 @@
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
   />
   <!-- Google Font -->
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link
     rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap"
@@ -31,6 +28,9 @@
       --border-color: #dee2e6;
       --table-header-bg: #f2f2f2;
       --light-bg: #f8f9fa;
+      --banner-bg: #e6f7e9;
+      --banner-text: #155724;
+      --citation-bg: #f1f1f1;
     }
 
     body {
@@ -59,6 +59,20 @@
       color: var(--lighter-text);
     }
 
+    /* Acceptance Banner */
+    .acceptance-banner {
+      background-color: var(--banner-bg);
+      color: var(--banner-text);
+      text-align: center;
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+      font-weight: 500;
+    }
+    .acceptance-banner a {
+      color: var(--accent-green);
+      text-decoration: underline;
+    }
+
     /* Footer */
     footer {
       background-color: #fff;
@@ -67,6 +81,19 @@
       padding: 1rem 0;
       font-size: 0.9rem;
       border-top: 1px solid var(--border-color);
+    }
+
+    /* Citation Section */
+    .citation-section {
+      background-color: var(--citation-bg);
+      border-top: 1px solid var(--border-color);
+      padding: 1rem;
+      font-size: 0.9rem;
+      margin-top: 3rem;
+    }
+    .citation-section h5 {
+      margin-bottom: 0.5rem;
+      font-weight: 500;
     }
 
     /* Description Text */
@@ -87,21 +114,17 @@
 
     /* Main Table */
     .table {
-      /* Subtle gray background instead of pure white */
       background-color: #f9f9f9;
-      /* Rounded corners */
       border-radius: 8px;
-      /* Hide anything that overflows the border radius */
       overflow: hidden;
-      /* Optional subtle box shadow */
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       width: 100%;
     }
     .table th, .table td {
-      max-width: 150px; /* Set a max width for table cells to prevent unnecessary stretching */
-      overflow-wrap: break-word; /* Break long words */
+      max-width: 150px;
+      overflow-wrap: break-word;
       word-wrap: break-word;
-      white-space: normal; /* Allow text to wrap */
+      white-space: normal;
     }
     .table thead th {
       background-color: var(--table-header-bg);
@@ -115,28 +138,15 @@
       text-decoration: none;
     }
     .table tbody tr {
-      transition: background-color 0.3s ease; /* Smooth color change on hover */
+      transition: background-color 0.3s ease;
     }
-
     .table tbody tr:hover {
-      background-color: #eceff1; /* Slightly darker hover color */
+      background-color: #eceff1;
     }
 
-    /*
-      Column order (main table):
-      1) Title
-      2) Year (sortable)
-      3) Category
-      4) Binary 1 (sortable, vertical line before it)
-      5) Binary 2 (sortable)
-      6) Binary 3 (sortable)
-      7) Binary 4 (sortable)
-      8) Code? (sortable, vertical line before it)
-    */
+    /* Vertical Borders in Table */
     .table thead th:nth-child(4),
-    .table tbody td:nth-child(4) {
-      border-left: 2px solid var(--border-color);
-    }
+    .table tbody td:nth-child(4),
     .table thead th:nth-child(8),
     .table tbody td:nth-child(8) {
       border-left: 2px solid var(--border-color);
@@ -144,10 +154,10 @@
 
     /* Sort icons next to the header text */
     .sort-icon {
-      margin-left: 5px;             /* Space between the text and the icon */
-      font-size: 0.85em;            /* Slightly smaller icon size */
-      color: var(--lighter-text);   /* Subtle color for the icon */
-      display: inline-block;        /* Ensures it behaves like an inline element */
+      margin-left: 5px;
+      font-size: 0.85em;
+      color: var(--lighter-text);
+      display: inline-block;
     }
 
     /* Buttons */
@@ -171,7 +181,7 @@
 
     /* Hidden form container - "card" style */
     #formSection {
-      display: none; /* hidden by default */
+      display: none;
       margin-top: 2rem;
       margin-bottom: 2rem;
       padding: 2rem;
@@ -205,69 +215,70 @@
       font-size: 1.4rem;
       font-weight: 500;
     }
+
     /* PNG image restrictions */
     .responsive-image {
-      max-width: 80%; /* Prevent the image from growing beyond this width */
-      max-height: 250px; /* Limit the height */
-      width: auto; /* Maintain aspect ratio */
-      height: auto; /* Maintain aspect ratio */
-      margin: 0 auto; /* Center the image */
-      display: block; /* Center as block element */
+      max-width: 80%;
+      max-height: 250px;
+      width: auto;
+      height: auto;
+      margin: 0 auto;
+      display: block;
     }
-  
   </style>
 </head>
 <body>
 
   <!-- Header -->
   <header>
-    <h1>Which <span style="color: green; font-weight: bold;">LIME</span> should I trust? </h1>
+    <h1>Which <span style="color: var(--accent-green); font-weight: bold;">LIME</span> should I trust?</h1>
     <p class="lead">Concepts, Challenges and Solutions</p>
   </header>
 
+  <!-- Acceptance Banner -->
+  <div class="acceptance-banner">
+    This paper has been accepted at <strong>XAI 2025</strong> – see the official version on 
+    <a href="https://arxiv.org/abs/2503.24365v1" target="_blank">arXiv</a>.
+  </div>
+
   <!-- Main Container -->
   <main class="container my-4">
-    <!-- Short Description -->
-    <!-- Additional Text Section with PDF Viewer -->
-    <!-- Additional Image Section with Automatic Resizing -->
-
     <!-- LIME Framework Summary Section -->
     <section class="container my-5" id="limeSummary">
       <h2 class="text-center mb-4">LIME Framework Overview</h2>
       <p class="text-muted">
-        <a href="https://arxiv.org/abs/1602.04938" target="_blank" class="text-success fw-bold">LIME</a> (Local Interpretable Model-agnostic Explanations) is a popular XAI framework designed to explain neural network decisions in a model-agnostic and instance-specific manner. It supports explanations across various data modalities, including images, text, and tabular data. This page summarizes the key components of LIME, its applications, and known issues. 
+        <a href="https://arxiv.org/abs/1602.04938" target="_blank" class="text-success fw-bold">LIME</a> (Local Interpretable Model-agnostic Explanations) is a popular XAI framework designed to explain neural network decisions in a model-agnostic and instance-specific manner. It supports explanations across various data modalities, including images, text, and tabular data. This page summarizes the key components of LIME, its applications, and known issues.
       </p>
 
       <h4 class="mt-4">Key Components of LIME</h4>
-
       <div class="text-center">
         <img src="framework.png" alt="LIME Framework Overview" class="responsive-image" />
         <p class="text-muted small mt-2">Figure: Illustration of LIME explanations.</p>
       </div>
-
       <ul>
         <li>
-          <strong>Feature Generation:</strong> LIME builds a local, interpretable surrogate model by creating features based on the input modality (e.g., superpixels for images). Segmentation techniques are used to reduce feature complexity for imagery data.
+          <strong>Feature Generation:</strong> LIME builds a local, interpretable surrogate model by creating features based on the input modality (e.g., superpixels for images). Segmentation techniques reduce feature complexity.
         </li>
         <li>
-          <strong>Sample Generation:</strong> The framework generates perturbed samples by selectively modifying features of the input instance. For example, superpixels in images may be masked, tabular features perturbed, or text tokens replaced to explore the model's decision boundary.
+          <strong>Sample Generation:</strong> Perturbed samples are generated by selectively modifying features of the input instance.
         </li>
         <li>
-          <strong>Feature Attribution:</strong> A proximity measure is applied to assign weights to perturbed samples. A linear surrogate model is trained to approximate the model’s local decision-making, using a weighted loss function to ensure fidelity.
+          <strong>Feature Attribution:</strong> A proximity measure assigns weights to perturbed samples, and a linear surrogate model approximates the original model’s behavior.
         </li>
         <li>
-          <strong>Explanation Representation:</strong> LIME provides explanations based on the coefficients of the surrogate model. For images, it highlights important superpixels, for text, key words or phrases, and for tabular data, influential features.
+          <strong>Explanation Representation:</strong> Explanations are provided based on the coefficients of the surrogate model – highlighting key parts of images, text, or tabular data.
         </li>
       </ul>
 
       <h4 class="mt-4">Key Issues in LIME</h4>
-      <p class="text-muted">Despite its strengths, LIME has known limitations that various studies have addressed:</p>
+      <p class="text-muted">Despite its strengths, LIME faces some limitations:</p>
       <ul>
-        <li><strong>Locality Issue (L):</strong> Perturbation sampling may fail to represent the local decision boundary accurately, leading to overly broad explanations.</li>
-        <li><strong>Fidelity Issue (F):</strong> The surrogate model may not capture the original model's behavior precisely, causing explanations to misrepresent decisions.</li>
-        <li><strong>Interpretability Issue (I):</strong> The explanation format may need adjustments to suit different data modalities for better user understanding.</li>
-        <li><strong>Stability Issue (S):</strong> Explanations can vary due to small input changes or random perturbations, undermining reliability.</li>
-        <li><strong>Efficiency Issue (E):</strong> Generating explanations can be time-consuming due to the complexity of perturbation and model fitting processes.</li>
+        <li><strong>Locality Issue (L):</strong> Perturbation sampling may not capture the local decision boundary accurately.</li>
+        <li><strong>Fidelity Issue (F):</strong> The surrogate model might not precisely reflect the behavior of the original model.</li>
+        <li><strong>Interpretability Issue (I):</strong> The explanation format may require adjustments for clarity across data modalities.</li>
+        <li><strong>Stability Issue (S):</strong> Explanations can vary with minor input changes.</li>
+        <li><strong>Efficiency Issue (E):</strong> Generating explanations can be computationally demanding.
+        </li>
       </ul>
     </section>
 
@@ -276,36 +287,28 @@
       <table class="table table-borderless align-middle mt-3" id="paperTable">
         <thead>
           <tr>
-            <!-- 1) Title (not sortable) -->
             <th id="titleCol">Title</th>
-            <!-- 2) Year (sortable) -->
             <th id="yearCol" class="text-center">
               Year
               <span id="yearSortIcon" class="sort-icon">▼</span>
             </th>
-            <!-- 3) Category (not sortable) -->
             <th id="categoryCol">Issue</th>
-            <!-- 4) Binary1 (sortable, vertical line before it) -->
             <th id="binary1Col" class="text-center">
               Feature <br>Generation
               <span id="binary1Icon" class="sort-icon">▼</span>
             </th>
-            <!-- 5) Binary2 (sortable) -->
             <th id="binary2Col" class="text-center">
               Sample <br>Generation
               <span id="binary2Icon" class="sort-icon">▼</span>
             </th>
-            <!-- 6) Binary3 (sortable) -->
             <th id="binary3Col" class="text-center">
               Feature <br>Attribution
               <span id="binary3Icon" class="sort-icon">▼</span>
             </th>
-            <!-- 7) Binary4 (sortable) -->
             <th id="binary4Col" class="text-center">
-              Explanation <br> Representation
+              Explanation <br>Representation
               <span id="binary4Icon" class="sort-icon">▼</span>
             </th>
-            <!-- 8) Code? (sortable, vertical line before it) -->
             <th id="codeCol" class="text-center">
               Code?
               <span id="codeSortIcon" class="sort-icon">▼</span>
@@ -326,56 +329,23 @@
     <!-- Hidden Form Section (Card-like container) -->
     <div id="formSection">
       <h2>Suggest a New Paper</h2>
-      <form
-        id="submitForm"
-        action="https://formspree.io/f/mblgjzng"
-        method="POST"
-        class="row"
-      >
-        <!-- Title -->
+      <form id="submitForm" action="https://formspree.io/f/mblgjzng" method="POST" class="row">
         <div class="col-md-6">
           <label for="titleField" class="form-label">Title</label>
-          <input
-            type="text"
-            class="form-control"
-            id="titleField"
-            name="title"
-            placeholder="E.g. 'Novel Method XYZ'"
-            required
-          />
+          <input type="text" class="form-control" id="titleField" name="title" placeholder="E.g. 'Novel Method XYZ'" required />
         </div>
-        <!-- URL -->
         <div class="col-md-6">
           <label for="urlField" class="form-label">Link to Paper</label>
-          <input
-            type="url"
-            class="form-control"
-            id="urlField"
-            name="url"
-            placeholder="E.g. 'https://example.com/paperXYZ'"
-            required
-          />
+          <input type="url" class="form-control" id="urlField" name="url" placeholder="E.g. 'https://example.com/paperXYZ'" required />
         </div>
-        <!-- Category -->
         <div class="col-md-4">
           <label for="categoryField" class="form-label">Issue</label>
           <input type="text" class="form-control" id="categoryField" name="category" placeholder="E.g. 'F, L'" required>
         </div>
-        <!-- Year -->
         <div class="col-md-4">
           <label for="yearField" class="form-label">Year</label>
-          <input
-            type="number"
-            class="form-control"
-            id="yearField"
-            name="year"
-            placeholder="E.g. 2023"
-            min="1900"
-            max="2100"
-            required
-          />
+          <input type="number" class="form-control" id="yearField" name="year" placeholder="E.g. 2023" min="1900" max="2100" required />
         </div>
-        <!-- Code Available -->
         <div class="col-md-4">
           <label for="codeAvailable" class="form-label">Code Available?</label>
           <select class="form-select" id="codeAvailable" name="codeAvailable" required>
@@ -384,49 +354,19 @@
             <option value="false">No</option>
           </select>
         </div>
-
-        <!-- Modality -->
         <div class="col-md-6">
           <label for="modalityField" class="form-label">Modality</label>
-          <input
-            type="text"
-            class="form-control"
-            id="modalityField"
-            name="modality"
-            placeholder="E.g. 'Text, Vision, Audio, etc.'"
-            required
-          />
+          <input type="text" class="form-control" id="modalityField" name="modality" placeholder="E.g. 'Text, Vision, Audio, etc.'" required />
         </div>
-
-        <!-- Domain -->
         <div class="col-md-6">
           <label for="domainField" class="form-label">Domain</label>
-          <input
-            type="text"
-            class="form-control"
-            id="domainField"
-            name="domain"
-            placeholder="E.g. 'Healthcare, Finance, etc.'"
-            required
-          />
+          <input type="text" class="form-control" id="domainField" name="domain" placeholder="E.g. 'Healthcare, Finance, etc.'" required />
         </div>
-
-        <!-- codeUrl (optional) -->
         <div class="col-md-12">
-          <label for="codeUrlField" class="form-label">
-            Code URL (if Code? = Yes)
-          </label>
-          <input
-            type="url"
-            class="form-control"
-            id="codeUrlField"
-            name="codeUrl"
-            placeholder="E.g. 'https://github.com/your-repo'"
-          />
+          <label for="codeUrlField" class="form-label">Code URL (if Code? = Yes)</label>
+          <input type="url" class="form-control" id="codeUrlField" name="codeUrl" placeholder="E.g. 'https://github.com/your-repo'" />
           <small class="text-muted">Leave empty if no code link is available.</small>
         </div>
-
-        <!-- Binary 1 -->
         <div class="col-md-3">
           <label for="binary1" class="form-label">Feature Generation</label>
           <select class="form-select" id="binary1" name="binary1" required>
@@ -435,7 +375,6 @@
             <option value="false">No</option>
           </select>
         </div>
-        <!-- Binary 2 -->
         <div class="col-md-3">
           <label for="binary2" class="form-label">Sample Generation</label>
           <select class="form-select" id="binary2" name="binary2" required>
@@ -444,7 +383,6 @@
             <option value="false">No</option>
           </select>
         </div>
-        <!-- Binary 3 -->
         <div class="col-md-3">
           <label for="binary3" class="form-label">Feature Attribution</label>
           <select class="form-select" id="binary3" name="binary3" required>
@@ -453,8 +391,7 @@
             <option value="false">No</option>
           </select>
         </div>
-        <!-- Binary 4 -->
-        <div class="col-md=3">
+        <div class="col-md-3">
           <label for="binary4" class="form-label">Explanation Representation</label>
           <select class="form-select" id="binary4" name="binary4" required>
             <option value="" disabled selected>-- Select --</option>
@@ -462,27 +399,104 @@
             <option value="false">No</option>
           </select>
         </div>
-
-        <!-- Submit Button -->
         <div class="col-12 text-end mt-3">
-          <button type="submit" class="btn btn-primary">
-            Send Suggestion
-          </button>
+          <button type="submit" class="btn btn-primary">Send Suggestion</button>
         </div>
       </form>
     </div>
 
     <!-- LIME Techniques Table -->
     <h4 class="mt-4">Applications of LIME</h4>
-      <p class="text-muted">
-        LIME has been successfully applied to complex AI models such as CNNs, LSTMs, and transformer architectures across domains like healthcare, finance, and manufacturing. However, enhancements have been proposed to improve its efficiency, fidelity, and stability.
-      </p> 
+    <p class="text-muted">
+      LIME has been applied to complex AI models such as CNNs, LSTMs, and transformer architectures in healthcare, finance, manufacturing, and more. Enhancements have been proposed to improve its efficiency, fidelity, and stability.
+    </p>
     
     <!-- Additional Table Container (LIME Techniques) -->
     <div class="container mt-5" id="limeTechniquesContainer">
       <!-- Will be populated by buildLimeTechniquesTable(paperData) -->
     </div>
 
+    <!-- Citation Section -->
+    <!-- Citation Section -->
+    <div class="citation-section">
+      <h5>Citation</h5>
+      <p>Copy the citation in your preferred format:</p>
+      
+      <div class="citation-format">
+        <h6>BibTeX</h6>
+        <pre id="bibtexCitation">@inproceedings{knab2025limeitrustconcepts,
+        title={Which LIME should I trust? Concepts, Challenges, and Solutions},
+        author={Patrick Knab and Sascha Marton and Udo Schlegel and Christian Bartelt},
+        booktitle={Proceedings of the XAI 2025 Conference},
+        year={2025},
+        eprint={2503.24365},
+        archivePrefix={arXiv},
+        primaryClass={cs.LG},
+        url={https://arxiv.org/abs/2503.24365},
+    }</pre>
+        <button class="copy-btn" onclick="copyToClipboard('bibtexCitation')">Copy BibTeX</button>
+      </div>
+      
+      <div class="citation-format">
+        <h6>Plain Text</h6>
+        <pre id="plaintextCitation">Patrick Knab, Sascha Marton, Udo Schlegel, and Christian Bartelt (2025). Which LIME should I trust? Concepts, Challenges, and Solutions. Accepted at XAI 2025 Conference. Retrieved from https://arxiv.org/abs/2503.24365</pre>
+        <button class="copy-btn" onclick="copyToClipboard('plaintextCitation')">Copy Plain Text</button>
+      </div>
+    </div>
+
+    <style>
+      .citation-section {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin: 1.5rem 0;
+      }
+      .citation-section h5 {
+        margin-bottom: 1rem;
+        color: #28a745;
+      }
+      .citation-format {
+        margin-bottom: 1rem;
+      }
+      .citation-format h6 {
+        margin: 0 0 0.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+      }
+      .citation-format pre {
+        background-color: #e9ecef;
+        padding: 1rem;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-family: Consolas, monospace;
+        font-size: 0.9rem;
+      }
+      .copy-btn {
+        margin-top: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+        border: none;
+        border-radius: 4px;
+        background-color: #28a745;
+        color: #fff;
+        cursor: pointer;
+      }
+      .copy-btn:hover {
+        background-color: #218838;
+      }
+    </style>
+
+    <script>
+      function copyToClipboard(elementId) {
+        var copyText = document.getElementById(elementId).innerText;
+        navigator.clipboard.writeText(copyText).then(function() {
+          alert("Citation copied to clipboard!");
+        }, function(err) {
+          alert("Failed to copy citation: " + err);
+        });
+      }
+    </script>
   </main>
 
   <!-- Footer -->
@@ -492,18 +506,15 @@
 
   <!-- Bootstrap Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
   <script>
     let paperData = [];
     let currentSortColumn = null;
     let currentSortAsc = true;
 
-    // If codeUrl is present, display the checkmark as a link. Otherwise just check/cross.
     function getCodeMark(item) {
       if (!item.codeAvailable) {
         return '<span class="text-danger fw-bold">&times;</span>';
       } else {
-        // codeAvailable = true
         if (item.codeUrl) {
           return `<a href="${item.codeUrl}" target="_blank" class="text-success fw-bold">&#128187;</a>`;
         }
@@ -511,13 +522,8 @@
       }
     }
 
-    // For the 4 binaries: just check/cross
     function boolToMark(boolValue) {
-      if (boolValue) {
-        return '<span class="text-success fw-bold">&check;</span>';
-      } else {
-        return '<span class="text-danger fw-bold">&times;</span>';
-      }
+      return boolValue ? '<span class="text-success fw-bold">&check;</span>' : '<span class="text-danger fw-bold">&times;</span>';
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -525,22 +531,14 @@
         .then(res => res.json())
         .then(data => {
           paperData = data;
-          // Default sort: by year ascending
           currentSortColumn = 'year';
           currentSortAsc = true;
-
-          // Render main table
           updateTable();
-
-          // Render LIME techniques table
           buildLimeTechniquesTable(paperData);
-
-          // Update footer year
           document.getElementById('yearSpan').textContent = new Date().getFullYear();
         })
         .catch(err => console.error('Error loading data.json:', err));
 
-      // Show/hide Add Entry form
       const toggleFormBtn = document.getElementById('toggleFormBtn');
       const formSection = document.getElementById('formSection');
       let formVisible = false;
@@ -549,7 +547,6 @@
         formSection.style.display = formVisible ? 'block' : 'none';
       });
 
-      // Single-column sort event listeners
       document.getElementById('yearCol').addEventListener('click', () => handleSort('year'));
       document.getElementById('binary1Col').addEventListener('click', () => handleSort('binary1'));
       document.getElementById('binary2Col').addEventListener('click', () => handleSort('binary2'));
@@ -558,23 +555,18 @@
       document.getElementById('codeCol').addEventListener('click', () => handleSort('code'));
     });
 
-    // Handle single-column sort
     function handleSort(column) {
       if (currentSortColumn === column) {
-        // Toggling asc <-> desc
         currentSortAsc = !currentSortAsc;
       } else {
         currentSortColumn = column;
-        currentSortAsc = true; // reset to ascending
+        currentSortAsc = true;
       }
       updateTable();
     }
 
-    // Sort + render main table
     function updateTable() {
       let sortedData = [...paperData];
-
-      // Sort by currentSortColumn
       sortedData.sort((a, b) => {
         let valA, valB;
         switch (currentSortColumn) {
@@ -609,54 +601,35 @@
         if (valA > valB) return currentSortAsc ? 1 : -1;
         return 0;
       });
-
       renderMainTable(sortedData);
     }
 
-    // Render in the final column order
     function renderMainTable(items) {
       const tableBody = document.getElementById('tableBody');
       tableBody.innerHTML = '';
-
       items.forEach(item => {
-        // Checkmarks / Crosses for the 4 binaries
         const bin1Val = boolToMark(item.binary1);
         const bin2Val = boolToMark(item.binary2);
         const bin3Val = boolToMark(item.binary3);
         const bin4Val = boolToMark(item.binary4);
-
-        // Code link or mark
         const codeVal = getCodeMark(item);
-
-        // Title as link to paper URL
         const titleLink = `<a href="${item.url}" target="_blank">${item.title}</a>`;
-
         const row = document.createElement('tr');
         row.innerHTML = `
-          <!-- 1) Title (left-aligned) -->
           <td>${titleLink}</td>
-          <!-- 2) Year (center) -->
           <td class="text-center">${item.year}</td>
-          <!-- 3) Category (left-aligned) -->
           <td>${item.category}</td>
-          <!-- 4) Binary 1 (center) -->
           <td class="text-center">${bin1Val}</td>
-          <!-- 5) Binary 2 (center) -->
           <td class="text-center">${bin2Val}</td>
-          <!-- 6) Binary 3 (center) -->
           <td class="text-center">${bin3Val}</td>
-          <!-- 7) Binary 4 (center) -->
           <td class="text-center">${bin4Val}</td>
-          <!-- 8) Code? (center) -->
           <td class="text-center">${codeVal}</td>
         `;
         tableBody.appendChild(row);
       });
-
       updateSortIcons();
     }
 
-    // Update the icons
     function updateSortIcons() {
       const iconMap = {
         year: 'yearSortIcon',
@@ -666,15 +639,11 @@
         binary3: 'binary3Icon',
         binary4: 'binary4Icon'
       };
-
-      // Reset all icons
       Object.values(iconMap).forEach(iconId => {
         const iconEl = document.getElementById(iconId);
         iconEl.style.color = 'var(--lighter-text)';
-        iconEl.textContent = '▼'; // default
+        iconEl.textContent = '▼';
       });
-
-      // Highlight the current column
       const currentIcon = iconMap[currentSortColumn];
       if (currentIcon) {
         const iconEl = document.getElementById(currentIcon);
@@ -683,20 +652,15 @@
       }
     }
 
-    // Build LIME Techniques Table (collapsed: 1 row per modality)
     function buildLimeTechniquesTable(paperData) {
-      // 1) Group by Modality -> Domain
       const grouping = {};
       paperData.forEach((item) => {
         const mod = item.modality || "Unknown Modality";
         const dom = item.domain || "Unknown Domain";
-        
         grouping[mod] = grouping[mod] || {};
         grouping[mod][dom] = grouping[mod][dom] || [];
         grouping[mod][dom].push(item);
       });
-
-      // 2) Build the table HTML
       let html = `
         <figure>
           <table class="table table-borderless table-sm align-middle mt-3">
@@ -709,66 +673,35 @@
             </thead>
             <tbody>
       `;
-
-      // 3) For each Modality, list its Domains
       const allModalities = Object.keys(grouping).sort();
       allModalities.forEach((mod, modIndex) => {
         const domainMap = grouping[mod];
         const domains = Object.keys(domainMap).sort();
-
-        // Insert a thin gray line before each new modality (except the first)
         if (modIndex > 0) {
-          html += `
-            <tr style="border-top: 1px solid #ccc;">
-              <td colspan="3"></td>
-            </tr>
-          `;
+          html += `<tr style="border-top: 1px solid #ccc;"><td colspan="3"></td></tr>`;
         }
-
-        // Figure out how many rows we'll need for this modality (# of domains)
         const rowSpanForMod = domains.length;
         let firstDomainForMod = true;
-
         domains.forEach((dom) => {
-          // Build a comma-separated list of technique links
           const techniqueLinks = domainMap[dom]
-            .map(
-              (paper) => `<a href="${paper.url}" target="_blank">${paper.title}</a>`
-            )
+            .map((paper) => `<a href="${paper.url}" target="_blank">${paper.title}</a>`)
             .join(", ");
-
-          // Single row per (Modality, Domain)
           html += `<tr>`;
-
-          // Only print the Modality cell once, with rowSpan = # of domains
           if (firstDomainForMod) {
-            html += `
-              <td rowspan="${rowSpanForMod}">
-                <strong>${mod}</strong>
-              </td>
-            `;
+            html += `<td rowspan="${rowSpanForMod}"><strong>${mod}</strong></td>`;
             firstDomainForMod = false;
           }
-
-          // Domain + LIME-techniques
-          html += `
-            <td>${dom}</td>
-            <td>${techniqueLinks}</td>
-          </tr>
-          `;
+          html += `<td>${dom}</td>
+                   <td>${techniqueLinks}</td>
+                 </tr>`;
         });
       });
-
-      // 4) Close out the table
       html += `
             </tbody>
           </table>
         </figure>
       `;
-
-      // 5) Inject table into DOM
-      const container = document.getElementById("limeTechniquesContainer");
-      container.innerHTML = html;
+      document.getElementById("limeTechniquesContainer").innerHTML = html;
     }
   </script>
 </body>
