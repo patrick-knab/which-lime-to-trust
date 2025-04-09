@@ -27,6 +27,20 @@
     "domain": "Healthcare"
   },
   {
+    "title": "Stratified LIME",
+    "url": "https://doi.org/10.1609/aaai.v38i13.29397",
+    "category": "L, F",
+    "year": 2024,
+    "codeAvailable": true,
+    "codeUrl": "https://github.com/rashidrao-pk/lime_stratified",
+    "binary1": false,
+    "binary2": true,
+    "binary3": true,
+    "binary4": false,
+    "modality": "Image",
+    "domain": "Universal"
+  },
+  {
     "title": "LSLIME",
     "url": "https://arxiv.org/pdf/1806.07498",
     "category": "L",
