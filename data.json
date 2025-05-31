@@ -674,5 +674,20 @@
     "binary4": true,
     "modality": "Tabular",
     "domain": "Universal"
+  },
+  
+  {
+    "title": "SMILE",
+    "url": "https://ieeexplore.ieee.org/document/10272255",
+    "category": "S, F",
+    "year": 2024,
+    "codeAvailable": true,
+    "codeUrl": "https://github.com/Dependable-Intelligent-Systems-Lab/xwhy?tab=readme-ov-file",
+    "binary1": false,
+    "binary2": true,
+    "binary3": true,
+    "binary4": false,
+    "modality": "Text",
+    "domain": "Universal"
   }
 ]
