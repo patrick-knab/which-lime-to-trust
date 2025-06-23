@@ -689,5 +689,20 @@
     "binary4": false,
     "modality": "Text",
     "domain": "Universal"
+  }, 
+
+  {
+    "title": "BELIEF",
+    "url": "https://openreview.net/pdf?id=j4Al2JmCi6",
+    "category": "S",
+    "year": 2025,
+    "codeAvailable": true,
+    "codeUrl": "https://openreview.net/forum?id=j4Al2JmCi6&referrer=%5Bthe%20profile%20of%20Revoti%20Prasad%20Bora%5D(%2Fprofile%3Fid%3D~Revoti_Prasad_Bora1)",
+    "binary1": false,
+    "binary2": false,
+    "binary3": true,
+    "binary4": false,
+    "modality": "Image, Tabular",
+    "domain": "Universal"
   }
 ]
