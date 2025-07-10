@@ -704,5 +704,20 @@
     "binary4": false,
     "modality": "Image, Tabular",
     "domain": "Universal"
+  },
+
+  {
+    "title": "POMELO",
+    "url": "https://www.intellisec.de/pubs/2025-xai.pdf",
+    "category": "L",
+    "year": 2025,
+    "codeAvailable": false,
+    "codeUrl": "",
+    "binary1": false,
+    "binary2": true,
+    "binary3": true,
+    "binary4": false,
+    "modality": "Image",
+    "domain": "Universal"
   }
 ]
