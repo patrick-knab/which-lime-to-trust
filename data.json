@@ -719,5 +719,20 @@
     "binary4": false,
     "modality": "Image",
     "domain": "Universal"
+  },
+
+  {
+    "title": "ITL-LIME",
+    "url": "https://arxiv.org/pdf/2508.13672",
+    "category": "S, F",
+    "year": 2025,
+    "codeAvailable": true,
+    "codeUrl": "https://github.com/rehanrazaa/ITL-LIME",
+    "binary1": true,
+    "binary2": true,
+    "binary3": true,
+    "binary4": false,
+    "modality": "Tabular",
+    "domain": "Universal"
   }
 ]
