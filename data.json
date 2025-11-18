@@ -734,5 +734,36 @@
     "binary4": false,
     "modality": "Tabular",
     "domain": "Universal"
-  }
+  },
+
+  {
+    "title": "LLiMe",
+    "url": "https://link.springer.com/article/10.1007/s10994-025-06920-z",
+    "category": "L",
+    "year": 2025,
+    "codeAvailable": false,
+    "codeUrl": "",
+    "binary1": false,
+    "binary2": true,
+    "binary3": false,
+    "binary4": true,
+    "modality": "Text",
+    "domain": "Universal"
+  },
+
+  {
+    "title": "TransLIME",
+    "url": "https://www.sciencedirect.com/science/article/pii/S0020025525010278",
+    "category": "S, F",
+    "year": 2025,
+    "codeAvailable": false,
+    "codeUrl": "",
+    "binary1": true,
+    "binary2": true,
+    "binary3": true,
+    "binary4": false,
+    "modality": "Tabular",
+    "domain": "Universal"
+  },
+
 ]
